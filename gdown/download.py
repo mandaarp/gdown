@@ -132,15 +132,16 @@ def download(
         try:
             url = get_url_from_gdrive_confirmation(res.text)
         except RuntimeError as e:
-            print("Access denied with the following error:")
-            error = "\n".join(textwrap.wrap(str(e)))
-            error = indent_func(error, "\t")
-            print("\n", error, "\n", file=sys.stderr)
-            print(
-                "You may still be able to access the file from the browser:",
-                file=sys.stderr,
-            )
-            print("\n\t", url_origin, "\n", file=sys.stderr)
+            if not quiet:
+                print("Access denied with the following error:")
+                error = "\n".join(textwrap.wrap(str(e)))
+                error = indent_func(error, "\t")
+                print("\n", error, "\n", file=sys.stderr)
+                print(
+                    "You may still be able to access the file from the browser:",
+                    file=sys.stderr,
+                )
+                print("\n\t", url_origin, "\n", file=sys.stderr)
             return
 
         if url is None:
